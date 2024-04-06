@@ -2,7 +2,25 @@
 
 !["Application Screenshot"](screenshot.png)
 
-A Django RESTful API application capable of processing requests containing spreadsheet files along with corresponding table names. If the specified table does not exist, the application dynamically creates a new table and imports the data from the spreadsheet. The application strictly accepts spreadsheet files in .xls and .xlsx formats. Furthermore, the uploaded spreadsheets must be free of any blank cells to ensure accurate data ingestion.
+### Functionality
+- This Django RESTful API application accepts POST requests containing:
+  - A spreadsheet file (uploaded through the request body)
+  - A table name (specified as a parameter in the request)
+    
+- The application performs the following actions:
+  - **File Validation:**
+    - Checks if the uploaded file is a valid spreadsheet (.xls or .xlsx extension).
+    - Rejects requests with unsupported file formats or empty files.
+  - **Data Validation:**
+    - Verifies that the uploaded spreadsheet contains no blank cells. This ensures data integrity during import.
+    - Returns an error message if blank cells are detected.
+  - **Table Management:**
+    - Checks if a table with the specified name already exists in the database.
+    - If the table doesn't exist, the application creates a new table with appropriate columns based on the spreadsheet data structure.
+  - **Data Import:**
+    - Parses the spreadsheet content using pandas.
+    - Inserts the extracted data into the newly created or existing table.
+    - Handles potential data type mismatches or errors during insertion gracefully (e.g., logging errors or returning specific error messages).
 
 ### Project Prerequisites
 - Python 3.12.2
